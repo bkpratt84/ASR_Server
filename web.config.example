@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appSettings>
+        <add key="NODE_ENV" value="production" />
+        <add key="db_user" value="" />
+        <add key="db_password" value="" />
+        <add key="db_server" value="" />
+        <add key="db_port" value="" />
+        <add key="db_database" value="" />
+        <add key="ORIGIN" value="" />
+    </appSettings>
+
+    <system.web>
+        <customErrors mode="off" />
+        <httpRuntime maxQueryStringLength="2097151" maxUrlLength="2097151" />
+    </system.web>
+
+    <system.webServer>
+        <directoryBrowse enabled="false" />
+
+        <handlers>
+            <add name="iisnode" path="server.js" verb="*" modules="iisnode" />
+        </handlers>
+
+        <httpErrors existingResponse="PassThrough" />
+
+        <iisnode debuggingEnabled="false" devErrorsEnabled="false" interceptor="&quot;%programfiles%\iisnode\interceptor.js&quot;" logDirectory="logs" loggingEnabled="true" nodeProcessCommandLine="&quot;%programfiles%\nodejs\node.exe&quot;" nodeProcessCountPerApplication="0">
+        </iisnode>
+
+        <rewrite>
+            <rules>
+                <clear />
+                <rule name="app" enabled="true" patternSyntax="ECMAScript" stopProcessing="true">
+                    <match url="iisnode.+" negate="true" />
+                    <conditions logicalGrouping="MatchAll" trackAllCaptures="false" />
+                    <action type="Rewrite" url="server.js" />
+                </rule>
+            </rules>
+        </rewrite>
+    </system.webServer>
+</configuration>
